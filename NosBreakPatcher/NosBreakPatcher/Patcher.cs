@@ -2,17 +2,46 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Resources;
+using System.Reflection;
 
 namespace NosBreakPatcher
 {
-    class Patcher
-    {
-        public string version;
+    public class Patcher
+    { //HttpClient instead of WebClient
         public string filename;
+        public readonly ResourceManager rm = new ResourceManager("NosBreakPatcher.Resources.Strings", Assembly.GetExecutingAssembly());
 
-        public static int GetVersion(string filename) => int.Parse(File.ReadAllText(filename, System.Text.Encoding.UTF8));
+        private async void Updater(object sender, EventArgs e)
+        {
+            try
+            {
 
+                #region Instanciations
+                var c = new HttpClient();
+                var s = await c.GetAsync(rm.GetString("WEB_URL"));
+                s.EnsureSuccessStatusCode();
+                var newVersion = await s.Content.ReadAsStringAsync();
+                var oldVersion = new Version(Application.ProductVersion);
+                #endregion
+
+                if (newVersion != oldVersion)
+                {
+
+                }
+            }
+            catch (HttpRequestException e)
+            {
+
+            }
+
+
+
+
+        }
     }
 }
