@@ -12,10 +12,11 @@ namespace NosBreakPatcher
 {
     public partial class Form1 : Form
     {
-        public string version = "1.0.0";
         public Form1()
         {
             InitializeComponent();
+            var ver = new Version(Application.ProductVersion);
         }
+
     }
 }
